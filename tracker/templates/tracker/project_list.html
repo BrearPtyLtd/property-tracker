@@ -1,0 +1,26 @@
+
+<h1>All Projects</h1>
+
+<form method="get">
+  <input type="text" name="q" placeholder="Search by name or number" value="{{ query }}">
+  <select name="stage">
+    <option value="">All Stages</option>
+    {% for s in stages %}
+      <option value="{{ s }}" {% if s == stage %}selected{% endif %}>{{ s }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Filter</button>
+</form>
+
+<p><a href="{% url 'create_project' %}">+ Add New Project</a></p>
+
+<h1>All Projects</h1>
+<ul>
+  {% for project in projects %}
+    <li>
+      <a href="{% url 'project_detail' project.pk %}">
+        {{ project.project_number }} - {{ project.name }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>

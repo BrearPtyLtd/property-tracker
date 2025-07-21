@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: propertydb
+      POSTGRES_USER: propertyuser
+      POSTGRES_PASSWORD: propertypass
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DEBUG=1
+      - DJANGO_DB_HOST=db
+      - DJANGO_DB_NAME=propertydb
+      - DJANGO_DB_USER=propertyuser
+      - DJANGO_DB_PASSWORD=propertypass
+
+volumes:
+  postgres_data:

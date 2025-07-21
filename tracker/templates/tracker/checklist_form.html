@@ -1,0 +1,7 @@
+<h1>Add Checklist Item for "{{ project.name }}"</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save Item</button>
+</form>
+<p><a href="{% url 'project_detail' project.pk %}">← Back to project</a></p>

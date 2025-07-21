@@ -1,0 +1,7 @@
+<h1>New Project</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save Project</button>
+</form>
+<p><a href="{% url 'project_list' %}">← Back to list</a></p>

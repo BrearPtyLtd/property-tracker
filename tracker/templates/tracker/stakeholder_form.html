@@ -1,0 +1,7 @@
+<h1>New Stakeholder</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save Stakeholder</button>
+</form>
+<p><a href="{% url 'project_list' %}">← Back to list</a></p>
