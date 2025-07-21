@@ -1,26 +1,40 @@
+{% extends "base.html" %}
+{% block title %}All Projects{% endblock %}
+{% block content %}
 
-<h1>All Projects</h1>
+<h1 class="mb-4">All Projects</h1>
 
-<form method="get">
-  <input type="text" name="q" placeholder="Search by name or number" value="{{ query }}">
-  <select name="stage">
-    <option value="">All Stages</option>
-    {% for s in stages %}
-      <option value="{{ s }}" {% if s == stage %}selected{% endif %}>{{ s }}</option>
-    {% endfor %}
-  </select>
-  <button type="submit">Filter</button>
+<form method="get" class="row g-2 mb-3">
+  <div class="col-md-5">
+    <input type="text" name="q" class="form-control" placeholder="Search by name or number" value="{{ query }}">
+  </div>
+  <div class="col-md-4">
+    <select name="stage" class="form-select">
+      <option value="">All Stages</option>
+      {% for s in stages %}
+        <option value="{{ s }}" {% if s == stage %}selected{% endif %}>{{ s }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-3">
+    <button type="submit" class="btn btn-outline-primary w-100">Filter</button>
+  </div>
 </form>
 
-<p><a href="{% url 'create_project' %}">+ Add New Project</a></p>
+<p><a href="{% url 'create_project' %}" class="btn btn-success">+ Add New Project</a></p>
 
-<h1>All Projects</h1>
-<ul>
+<ul class="list-group">
   {% for project in projects %}
-    <li>
+    <li class="list-group-item">
       <a href="{% url 'project_detail' project.pk %}">
         {{ project.project_number }} - {{ project.name }}
       </a>
     </li>
   {% endfor %}
 </ul>
+
+{% endblock %}
+
+
+<p><a href="{% url 'dashboard' %}">🏠 Dashboard</a></p>
+

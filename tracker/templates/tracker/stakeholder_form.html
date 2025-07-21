@@ -1,7 +1,15 @@
+{% extends "base.html" %}
+{% block title %}New Stakeholder{% endblock %}
+{% block content %}
+
 <h1>New Stakeholder</h1>
-<form method="post">
+
+<form method="post" class="mb-4">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Save Stakeholder</button>
+  <button type="submit" class="btn btn-secondary">Save Stakeholder</button>
 </form>
-<p><a href="{% url 'project_list' %}">← Back to list</a></p>
+
+<p><a href="{% url 'project_list' %}" class="btn btn-link">← Back to List</a></p>
+
+{% endblock %}

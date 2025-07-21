@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from .forms import ProjectForm, StakeholderForm, ChecklistItemForm
 from .forms import ProjectStakeholderForm
 from .forms import DocumentForm
+from django.contrib.auth.decorators import login_required
 
 from django.db.models import Q
 
@@ -102,3 +103,35 @@ def upload_document(request, pk):
     else:
         form = DocumentForm()
     return render(request, 'tracker/document_form.html', {'form': form, 'project': project})
+
+from django.db.models import Count, Q
+from .models import Project, ChecklistItem
+
+@login_required
+def dashboard(request):
+    total_projects = Project.objects.count()
+
+    stage_counts = (
+        Project.objects
+        .values('stage')
+        .annotate(count=Count('id'))
+        .order_by('-count')
+    )
+
+    pending_checklist = (
+        ChecklistItem.objects
+        .filter(status='pending')
+        .count()
+    )
+
+    recent_projects = (
+        Project.objects
+        .order_by('-start_date')[:5]
+    )
+
+    return render(request, 'tracker/dashboard.html', {
+        'total_projects': total_projects,
+        'stage_counts': stage_counts,
+        'pending_checklist': pending_checklist,
+        'recent_projects': recent_projects,
+    })

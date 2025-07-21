@@ -1,63 +1,61 @@
+{% extends "base.html" %}
+{% block title %}{{ project.name }}{% endblock %}
+{% block content %}
+
 <h1>{{ project.name }}</h1>
 
-<p><strong>Project Number:</strong> {{ project.project_number }}</p>
-<p><strong>Address:</strong> {{ project.address }}</p>
-<p><strong>Start Date:</strong> {{ project.start_date }}</p>
-<p><strong>Stage:</strong> {{ project.stage }}</p>
+<div class="mb-3">
+  <p><strong>Project Number:</strong> {{ project.project_number }}</p>
+  <p><strong>Address:</strong> {{ project.address }}</p>
+  <p><strong>Start Date:</strong> {{ project.start_date }}</p>
+  <p><strong>Stage:</strong> {{ project.stage }}</p>
+</div>
 
 <hr>
 
-<h2>Stakeholders</h2>
-<ul>
+<h3>👥 Stakeholders</h3>
+<ul class="list-group mb-3">
   {% for ps in stakeholders %}
-    <li>
+    <li class="list-group-item">
       {{ ps.stakeholder.get_role_display }}: {{ ps.stakeholder.name }}
-      {% if ps.role_description %} — {{ ps.role_description }}{% endif %}
+      {% if ps.role_description %}<small class="text-muted"> — {{ ps.role_description }}</small>{% endif %}
     </li>
   {% empty %}
-    <li>No stakeholders assigned.</li>
+    <li class="list-group-item text-muted">No stakeholders assigned.</li>
   {% endfor %}
 </ul>
+<a href="{% url 'assign_stakeholder' project.pk %}" class="btn btn-outline-primary btn-sm mb-3">+ Assign Stakeholder</a>
+<a href="{% url 'create_stakeholder' %}" class="btn btn-outline-secondary btn-sm mb-3">+ New Stakeholder</a>
 
-<p><a href="{% url 'create_stakeholder' %}">+ Add New Stakeholder</a></p>
-<p><a href="{% url 'assign_stakeholder' project.pk %}">+ Assign Stakeholder</a></p>
-
-<h2>Checklist</h2>
-<ul>
+<h3>✅ Checklist</h3>
+<ul class="list-group mb-3">
   {% for item in checklist %}
-    <li>
-      <strong>{{ item.item }}</strong> - {{ item.status|capfirst }}
-      {% if item.notes %}<br><small>{{ item.notes }}</small>{% endif %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span>
+        <strong>{{ item.item }}</strong>
+        {% if item.notes %}<br><small class="text-muted">{{ item.notes }}</small>{% endif %}
+      </span>
+      <span class="badge bg-secondary">{{ item.status }}</span>
     </li>
   {% empty %}
-    <li>No checklist items.</li>
+    <li class="list-group-item text-muted">No checklist items.</li>
   {% endfor %}
 </ul>
+<a href="{% url 'add_checklist_item' project.pk %}" class="btn btn-outline-success btn-sm mb-3">+ Add Checklist Item</a>
 
-<p><a href="{% url 'add_checklist_item' project.pk %}">+ Add Checklist Item</a></p>
-
-<h2>Documents</h2>
-<ul>
+<h3>📁 Documents</h3>
+<ul class="list-group mb-3">
   {% for doc in documents %}
-    <li>{{ doc.doc_type }}: {{ doc.filename }} ({{ doc.uploaded_at|date:"Y-m-d" }})</li>
-  {% empty %}
-    <li>No documents uploaded.</li>
-  {% endfor %}
-</ul>
-
-<p><a href="{% url 'upload_document' project.pk %}">+ Upload Document</a></p>
-
-<ul>
-  {% for doc in documents %}
-    <li>
-      {{ doc.doc_type }}: <a href="{{ doc.file.url }}" target="_blank">{{ doc.filename }}</a>
-      ({{ doc.uploaded_at|date:"Y-m-d" }})
+    <li class="list-group-item">
+      <strong>{{ doc.doc_type }}</strong>: <a href="{{ doc.file.url }}" target="_blank">{{ doc.filename }}</a>
+      <small class="text-muted float-end">{{ doc.uploaded_at|date:"Y-m-d" }}</small>
     </li>
   {% empty %}
-    <li>No documents uploaded.</li>
+    <li class="list-group-item text-muted">No documents uploaded.</li>
   {% endfor %}
 </ul>
+<a href="{% url 'upload_document' project.pk %}" class="btn btn-outline-info btn-sm mb-4">+ Upload Document</a>
 
+<p><a href="{% url 'project_list' %}" class="btn btn-link">← Back to Project List</a></p>
 
-<hr>
-<p><a href="{% url 'project_list' %}">← Back to project list</a></p>
+{% endblock %}

@@ -1,9 +1,15 @@
-<h1>Assign Stakeholder to "{{ project.name }}"</h1>
+{% extends "base.html" %}
+{% block title %}Assign Stakeholder{% endblock %}
+{% block content %}
 
-<form method="post">
+<h1>Assign Stakeholder to <em>{{ project.name }}</em></h1>
+
+<form method="post" class="mb-4">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Assign</button>
+  <button type="submit" class="btn btn-outline-primary">Assign</button>
 </form>
 
-<p><a href="{% url 'project_detail' project.pk %}">← Back to project</a></p>
+<p><a href="{% url 'project_detail' project.pk %}" class="btn btn-link">← Back to Project</a></p>
+
+{% endblock %}

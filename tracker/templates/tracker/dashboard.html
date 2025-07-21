@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<h1 class="mb-4">📊 Dashboard</h1>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card text-bg-primary mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Total Projects</h5>
+        <p class="card-text fs-4">{{ total_projects }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-bg-warning mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Pending Checklist Items</h5>
+        <p class="card-text fs-4">{{ pending_checklist }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 class="mt-4">Projects by Stage</h3>
+<ul class="list-group mb-3">
+  {% for entry in stage_counts %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      {{ entry.stage }}
+      <span class="badge bg-primary rounded-pill">{{ entry.count }}</span>
+    </li>
+  {% endfor %}
+</ul>
+
+<h3>Recent Projects</h3>
+<ul class="list-group">
+  {% for project in recent_projects %}
+    <li class="list-group-item">
+      <a href="{% url 'project_detail' project.pk %}">
+        {{ project.project_number }} - {{ project.name }}
+      </a>
+      <span class="text-muted">({{ project.start_date }})</span>
+    </li>
+  {% endfor %}
+</ul>
+
+
+<!-- 🔘 Project list button -->
+<div class="mt-4">
+  <a href="{% url 'project_list' %}" class="btn btn-outline-primary">
+    📂 View All Projects
+  </a>
+</div>
+
+{% endblock %}
+
+{% if user.is_authenticated %}
+  <p>Welcome, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
+{% else %}
+  <p><a href="{% url 'login' %}">Login</a></p>
+{% endif %}
+
+
+
