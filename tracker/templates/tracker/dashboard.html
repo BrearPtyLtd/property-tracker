@@ -48,16 +48,22 @@
 
 
 <!-- 🔘 Project list button -->
-<div class="mt-4">
+<div class="mt-4 d-flex gap-3">
   <a href="{% url 'project_list' %}" class="btn btn-outline-primary">
     📂 View All Projects
+  </a>
+  <a href="{% url 'create_project' %}" class="btn btn-success">
+    ➕ New Project
   </a>
 </div>
 
 {% endblock %}
 
 {% if user.is_authenticated %}
-  <p>Welcome, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
+  <p>Welcome, {{ user.username }} | <form method="post" action="{% url 'logout' %}" style="display: inline;">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-outline-secondary btn-sm">Logout</button>
+</form> 
 {% else %}
   <p><a href="{% url 'login' %}">Login</a></p>
 {% endif %}

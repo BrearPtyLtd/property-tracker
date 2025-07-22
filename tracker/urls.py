@@ -11,5 +11,6 @@ urlpatterns = [
     path('projects/<int:pk>/documents/upload/', views.upload_document, name='upload_document'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('projects/', views.project_list, name='project_list'),
+    path('logout/', views.custom_logout, name='custom_logout'),
 ]
 

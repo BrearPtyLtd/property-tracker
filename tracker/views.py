@@ -135,3 +135,12 @@ def dashboard(request):
         'pending_checklist': pending_checklist,
         'recent_projects': recent_projects,
     })
+
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def custom_logout(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('login')
+    return redirect('dashboard')
