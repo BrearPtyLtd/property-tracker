@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 12px; }
+    h1, h2, h3 { margin-bottom: 5px; }
+    ul { padding-left: 15px; }
+    .section { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Project Report</h1>
+  <div class="section">
+    <h2>{{ project.name }}</h2>
+    <p><strong>Project Number:</strong> {{ project.project_number }}</p>
+    <p><strong>Address:</strong> {{ project.address }}</p>
+    <p><strong>Start Date:</strong> {{ project.start_date }}</p>
+    <p><strong>Stage:</strong> {{ project.stage }}</p>
+  </div>
+
+  <div class="section">
+    <h3>Stakeholders</h3>
+    <ul>
+      {% for ps in stakeholders %}
+        <li>{{ ps.stakeholder.get_role_display }}: {{ ps.stakeholder.name }}</li>
+      {% empty %}
+        <li>No stakeholders assigned</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Checklist Items</h3>
+    <ul>
+      {% for item in checklist %}
+        <li>{{ item.item }} - {{ item.status }}</li>
+      {% empty %}
+        <li>No checklist items</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Documents</h3>
+    <ul>
+      {% for doc in documents %}
+        <li>{{ doc.doc_type }}: {{ doc.filename }}</li>
+      {% empty %}
+        <li>No documents</li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>

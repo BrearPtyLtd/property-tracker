@@ -6,6 +6,9 @@ from .forms import ProjectStakeholderForm
 from .forms import DocumentForm
 from django.contrib.auth.decorators import login_required
 
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
 from django.db.models import Q
 
 def project_list(request):
@@ -144,3 +147,29 @@ def custom_logout(request):
         logout(request)
         return redirect('login')
     return redirect('dashboard')
+
+from django.http import HttpResponse
+from .models import Project
+
+@login_required
+def export_project_pdf(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    stakeholders = ProjectStakeholder.objects.filter(project=project).select_related('stakeholder')
+    checklist = ChecklistItem.objects.filter(project=project)
+    documents = Document.objects.filter(project=project)
+
+    template = get_template('tracker/project_pdf.html')
+    html = template.render({
+        'project': project,
+        'stakeholders': stakeholders,
+        'checklist': checklist,
+        'documents': documents
+    })
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="project_{project.pk}.pdf"'
+
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    if pisa_status.err:
+        return HttpResponse('PDF generation failed', status=500)
+    return response

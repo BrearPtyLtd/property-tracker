@@ -54,7 +54,11 @@
     <li class="list-group-item text-muted">No documents uploaded.</li>
   {% endfor %}
 </ul>
-<a href="{% url 'upload_document' project.pk %}" class="btn btn-outline-info btn-sm mb-4">+ Upload Document</a>
+
+<div class="d-flex gap-2 mb-4">
+  <a href="{% url 'upload_document' project.pk %}" class="btn btn-outline-info btn-sm">+ Upload Document</a>
+  <a href="{% url 'export_project_pdf' project.pk %}" class="btn btn-outline-dark btn-sm">📄 Export as PDF</a>
+</div>
 
 <p><a href="{% url 'project_list' %}" class="btn btn-link">← Back to Project List</a></p>
 
