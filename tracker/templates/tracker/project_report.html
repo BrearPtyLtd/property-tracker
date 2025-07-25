@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Project Report{% endblock %}
+{% block content %}
+
+<h1>📄 Project Report</h1>
+
+<form method="get" class="row g-3 mb-4">
+  <div class="col-md-3">
+    <input type="text" name="q" class="form-control" placeholder="Search name or number" value="{{ q }}">
+  </div>
+  <div class="col-md-2">
+    <select name="stage" class="form-select">
+      <option value="">All Stages</option>
+      {% for s in stages %}
+        <option value="{{ s }}" {% if s == stage %}selected{% endif %}>{{ s }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-2">
+    <input type="date" name="start_date" class="form-control" value="{{ start_date }}">
+  </div>
+  <div class="col-md-2">
+    <input type="date" name="end_date" class="form-control" value="{{ end_date }}">
+  </div>
+  <div class="col-md-2">
+    <button type="submit" class="btn btn-outline-primary w-100">Filter</button>
+  </div>
+</form>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Project #</th>
+      <th>Name</th>
+      <th>Stage</th>
+      <th>Start Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for project in projects %}
+      <tr>
+        <td>{{ project.project_number }}</td>
+        <td><a href="{% url 'project_detail' project.pk %}">{{ project.name }}</a></td>
+        <td>{{ project.stage }}</td>
+        <td>{{ project.start_date }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="4" class="text-muted text-center">No projects found</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

@@ -48,14 +48,25 @@
 
 
 <!-- 🔘 Project list button -->
-<div class="mt-4 d-flex gap-3">
-  <a href="{% url 'project_list' %}" class="btn btn-outline-primary">
-    📂 View All Projects
-  </a>
-  <a href="{% url 'create_project' %}" class="btn btn-success">
-    ➕ New Project
-  </a>
+<div class="mt-4 row row-cols-1 row-cols-sm-3 g-3">
+  <div class="col">
+    <a href="{% url 'project_list' %}" class="btn btn-outline-primary w-100">
+      📂 View All Projects
+    </a>
+  </div>
+  <div class="col">
+    <a href="{% url 'create_project' %}" class="btn btn-success w-100">
+      ➕ New Project
+    </a>
+  </div>
+  <div class="col">
+    <a href="{% url 'project_report' %}" class="btn btn-outline-secondary w-100">
+      📊 Project Report
+    </a>
+  </div>
 </div>
+
+
 
 {% endblock %}
 

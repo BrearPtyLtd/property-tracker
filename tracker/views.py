@@ -173,3 +173,34 @@ def export_project_pdf(request, pk):
     if pisa_status.err:
         return HttpResponse('PDF generation failed', status=500)
     return response
+
+    from django.db.models import Q
+from django.utils.dateparse import parse_date
+
+@login_required
+def project_report(request):
+    projects = Project.objects.all().order_by('-start_date')
+    stage = request.GET.get('stage')
+    q = request.GET.get('q')
+    start = request.GET.get('start_date')
+    end = request.GET.get('end_date')
+
+    if q:
+        projects = projects.filter(Q(name__icontains=q) | Q(project_number__icontains=q))
+    if stage:
+        projects = projects.filter(stage__iexact=stage)
+    if start:
+        projects = projects.filter(start_date__gte=parse_date(start))
+    if end:
+        projects = projects.filter(start_date__lte=parse_date(end))
+
+    stages = Project.objects.values_list('stage', flat=True).distinct()
+
+    return render(request, 'tracker/project_report.html', {
+        'projects': projects,
+        'stage': stage,
+        'q': q,
+        'start_date': start,
+        'end_date': end,
+        'stages': stages,
+    })
