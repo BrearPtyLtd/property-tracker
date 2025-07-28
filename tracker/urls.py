@@ -14,5 +14,8 @@ urlpatterns = [
     path('logout/', views.custom_logout, name='custom_logout'),
     path('projects/<int:pk>/export/pdf/', views.export_project_pdf, name='export_project_pdf'),
     path('reports/projects/', views.project_report, name='project_report'),
+    path('projects/<int:pk>/edit/', views.edit_project, name='edit_project'),
+    path('projects/<int:pk>/delete/', views.delete_project, name='delete_project'),
+
 ]
 

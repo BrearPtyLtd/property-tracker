@@ -1,3 +1,4 @@
 django
 psycopg2-binary
 xhtml2pdf
+django-widget-tweaks

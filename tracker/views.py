@@ -204,3 +204,20 @@ def project_report(request):
         'end_date': end,
         'stages': stages,
     })
+
+@login_required
+def edit_project(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    form = ProjectForm(request.POST or None, instance=project)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('project_detail', pk=project.pk)
+    return render(request, 'tracker/project_form.html', {'form': form})
+
+@login_required
+def delete_project(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    if request.method == 'POST':
+        project.delete()
+        return redirect('project_list')
+    return redirect('project_detail', pk=pk)

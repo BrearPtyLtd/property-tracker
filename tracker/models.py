@@ -1,11 +1,19 @@
 from django.db import models
 
 class Project(models.Model):
+
+    STAGE_CHOICES = [
+        ('Quotes', 'Quotes'),
+        ('CDC Assessment', 'CDC Assessment'),
+        ('SC Assessment', 'SC Assessment'),
+        ('Finalized', 'Finalized'),
+    ]
+
     name = models.CharField(max_length=200)
     project_number = models.CharField(max_length=100, unique=True)
     address = models.TextField()
     start_date = models.DateField()
-    stage = models.CharField(max_length=100)
+    stage = models.CharField(max_length=100, choices=STAGE_CHOICES)
 
     def __str__(self):
         return f"{self.project_number} - {self.name}"
