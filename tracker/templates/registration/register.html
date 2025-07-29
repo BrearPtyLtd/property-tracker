@@ -1,21 +1,21 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
+{% block title %}Register{% endblock %}
 {% block content %}
 
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
   <div class="card p-4 shadow-sm w-100" style="max-width: 400px;">
 
-    <h2 class="text-center mb-4">Log In</h2>
+    <h2 class="text-center mb-4">Create an Account</h2>
 
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit" class="btn btn-primary w-100 mt-2">Login</button>
+      <button type="submit" class="btn btn-primary w-100 mt-2">Sign up</button>
     </form>
 
     <p class="text-center mt-3 mb-0">
-      Don’t have an account?
-      <a href="{% url 'register' %}" class="btn btn-outline-secondary btn-sm d-block mt-2">Register</a>
+      Already have an account?
+      <a href="{% url 'login' %}">Log in</a>
     </p>
 
   </div>
